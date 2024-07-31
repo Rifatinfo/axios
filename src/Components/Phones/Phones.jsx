@@ -3,10 +3,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
 
+import { Grid } from 'react-loader-spinner'
+
+
+
 
 const Phones = () => {
    
     const [phones, setPhones] = useState([]);
+    const [loading, setLoading] = useState(true);
+ 
 
     useEffect( () => {
         // fetch('https://openapi.programming-hero.com/api/phones?search=iphone')
@@ -23,14 +29,32 @@ const Phones = () => {
                 }
                 return obj;
             })
-            console.log(phonesWithFakeData)
+           console.log(phonesWithFakeData)
            setPhones(phonesWithFakeData);
+           setLoading(false);
         });
     }, [])
 
+  
+
     return (
-        <div>
-            <h2 className="text-5xl">Phones : {phones.length}</h2>
+        <div>             
+            {
+                loading && (<div className="flex justify-center items-center mb-8 ">
+                          <Grid
+                            visible={true}
+                            height="80"
+                            width="80"
+                            color="red"
+                            ariaLabel="grid-loading"
+                            radius="12.5"
+                            wrapperStyle={{}}
+                            wrapperClass="grid-wrapper"
+                            />
+                </div>)
+
+            }
+            <h2 className="text-5xl mt-5">Phones : {phones.length}</h2>
             <BarChart width={600} height={300} data={phones}>
             <Bar dataKey="price" fill="#8884d8" barSize={30} />
             <XAxis dataKey="name" stroke="#8884d8" />
